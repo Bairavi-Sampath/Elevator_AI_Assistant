@@ -1,0 +1,6 @@
+{
+  "name": "Elevator Fault Isolation & RCA Assistant",
+  "description": "Autonomous fault isolation, sensor telemetry monitoring, and root cause analysis assistant for elevator systems.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
