@@ -6,6 +6,8 @@ export type SystemStatus = 'normal' | 'warning' | 'critical';
 
 export type OperatingMode = 'simulation' | 'real_hardware';
 
+export type TelemetryConnectionState = 'simulation_active' | 'hardware_connected' | 'disconnected';
+
 export interface SensorData {
   timestamp: number;
   temperature: number; // °C
@@ -89,4 +91,26 @@ export interface MotorHealthMetrics {
   electricalStressScore: number;
   mechanicalVibrationScore: number;
   status: SystemStatus;
+}
+
+export interface AnomalyDetectionData {
+  isAnomaly: boolean;
+  anomalyScore: number; // 0.0 - 1.0
+  modelVersion?: string;
+}
+
+export interface FaultClassificationData {
+  predictedFault: string;
+  confidence: number; // 0 - 100%
+  probabilities: Record<string, number>;
+  modelVersion?: string;
+}
+
+export interface BackendDiagnosisData {
+  timestamp: number;
+  systemStatus: SystemStatus;
+  anomaly: AnomalyDetectionData;
+  faultClassification: FaultClassificationData;
+  rca: DetectedFault[];
+  motorHealth: MotorHealthMetrics;
 }

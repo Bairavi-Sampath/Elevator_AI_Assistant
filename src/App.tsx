@@ -18,7 +18,7 @@ import { HardwarePendingModal } from './components/common/HardwarePendingModal';
 const AppContent: React.FC = () => {
   const [currentPage, setCurrentPage] = useState<NavPage>('dashboard');
   const [isHardwareModalOpen, setIsHardwareModalOpen] = useState(false);
-  const { operatingMode } = useElevator();
+  const { operatingMode, connectionState } = useElevator();
 
   return (
     <div className="flex min-h-screen bg-slate-50 text-slate-800 font-sans">
@@ -34,20 +34,33 @@ const AppContent: React.FC = () => {
           onOpenHardwareModal={() => setIsHardwareModalOpen(true)}
         />
 
-        {/* Real Sensor Mode Pending Notice Banner (if in Real Hardware mode) */}
+        {/* Real Sensor Mode Notice Banner (if in Real Hardware mode) */}
         {operatingMode === 'real_hardware' && (
-          <div className="bg-indigo-900 text-indigo-100 px-6 py-2.5 text-xs flex items-center justify-between border-b border-indigo-800">
+          <div
+            className={`px-6 py-2.5 text-xs flex items-center justify-between border-b ${
+              connectionState === 'hardware_connected'
+                ? 'bg-emerald-950 text-emerald-100 border-emerald-800'
+                : 'bg-indigo-950 text-indigo-100 border-indigo-900'
+            }`}
+          >
             <div className="flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-indigo-400 animate-ping" />
+              <span
+                className={`w-2 h-2 rounded-full ${
+                  connectionState === 'hardware_connected' ? 'bg-emerald-400 animate-ping' : 'bg-rose-400'
+                }`}
+              />
               <span>
-                <strong>Real Sensor Mode:</strong> Physical ESP32 + FastAPI hardware bridge integration is pending. Standby telemetry active.
+                <strong>Real Sensor Mode:</strong>{' '}
+                {connectionState === 'hardware_connected'
+                  ? 'Physical ESP32 connection verified. Live telemetry streaming.'
+                  : 'Physical ESP32 + FastAPI hardware bridge unavailable (Disconnected).'}
               </span>
             </div>
             <button
               onClick={() => setIsHardwareModalOpen(true)}
               className="text-[11px] underline hover:text-white font-medium ml-4 shrink-0"
             >
-              View Hardware Architecture
+              Hardware Diagnostics & Architecture
             </button>
           </div>
         )}
@@ -75,7 +88,22 @@ const AppContent: React.FC = () => {
             <span>·</span>
             <span>Unit: Traction Car 01</span>
             <span>·</span>
-            <span className="text-emerald-600 font-medium">Telemetry Online</span>
+            <div className="flex items-center gap-1.5 font-medium">
+              <span
+                className={`w-2 h-2 rounded-full ${
+                  connectionState === 'disconnected' ? 'bg-rose-500' : 'bg-emerald-500 animate-pulse'
+                }`}
+              />
+              <span
+                className={
+                  connectionState === 'disconnected' ? 'text-rose-600' : 'text-emerald-600'
+                }
+              >
+                {connectionState === 'simulation_active' && 'Simulation Active'}
+                {connectionState === 'hardware_connected' && 'Hardware Connected'}
+                {connectionState === 'disconnected' && 'Disconnected'}
+              </span>
+            </div>
           </div>
         </footer>
       </div>

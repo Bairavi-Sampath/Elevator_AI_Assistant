@@ -1,0 +1,25 @@
+{
+  "features": [
+    "temperature",
+    "current",
+    "vibration",
+    "speed",
+    "door_closed"
+  ],
+  "classes": [
+    "Bearing Vibration",
+    "Door Interlock Fault",
+    "Motor Overcurrent",
+    "Motor Overheating",
+    "Normal",
+    "Overspeed"
+  ],
+  "metrics": {
+    "accuracy": 0.978125,
+    "macro_precision": 0.9719222259099457,
+    "macro_recall": 0.9695902048975512,
+    "macro_f1": 0.9694511420497265
+  },
+  "model_version": "v1.0.0",
+  "dataset_rows": 4800
+}
